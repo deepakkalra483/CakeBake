@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>TocFlow — Wireframe Index</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="assets/styles.css" />
+<style>
+  .landing { max-width: 980px; margin: 0 auto; padding: 56px 24px 80px; }
+  .landing-head { text-align: center; margin-bottom: 40px; }
+  .landing-head .brand-mark { width: 56px; height: 56px; margin: 0 auto 14px; }
+  .landing-head h1 { font-size: 28px; color: var(--purple-800); }
+  .landing-head p { color: var(--gray-500); margin-top: 8px; font-size: 14px; }
+  .cta-row { display: flex; justify-content: center; gap: 12px; margin-top: 22px; }
+  .map-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 36px; }
+  .map-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 18px 20px; box-shadow: var(--shadow-sm); }
+  .map-card .num { font-size: 11px; font-weight: 800; color: var(--purple-500); letter-spacing: .04em; }
+  .map-card h3 { font-size: 14.5px; margin-top: 6px; }
+  .map-card p { font-size: 12px; color: var(--gray-500); margin-top: 6px; line-height: 1.5; }
+  .map-card a.open { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; font-size: 12px; font-weight: 700; color: var(--purple-700); }
+  .map-section-label { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; color: var(--gray-400); margin: 30px 0 12px; }
+</style>
+</head>
+<body data-page="index" style="background:var(--gray-50);">
+  <div class="landing">
+    <div class="landing-head">
+      <svg class="brand-mark" viewBox="0 0 40 40" fill="none" style="margin:0 auto 14px;">
+        <defs><linearGradient id="lg" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse"><stop stop-color="#6E44C0"/><stop offset="1" stop-color="#2A1857"/></linearGradient></defs>
+        <path d="M4 30 C 10 14, 16 30, 20 18 C 24 6, 30 22, 36 10" stroke="url(#lg)" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+        <path d="M4 14 C 10 26, 16 10, 20 22 C 24 34, 30 18, 36 30" stroke="#B8A2E8" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.7"/>
+      </svg>
+      <h1>TocFlow — Clickable Wireframe</h1>
+      <p>Low-fidelity prototype of the TOC generation &amp; publishing platform, styled against the client's brand reference.<br/>Click through like a real app — every screen is linked.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="login.html">Launch Prototype →</a>
+        <a class="btn btn-secondary" href="dashboard.html">Skip to Dashboard</a>
+      </div>
+    </div>
+
+    <div class="map-section-label">Auth</div>
+    <div class="map-grid">
+      <div class="map-card">
+        <div class="num">01</div>
+        <h3>Login</h3>
+        <p>Email/password sign-in. Accounts are invite-only — no self-signup.</p>
+        <a class="open" href="login.html">Open screen →</a>
+      </div>
+    </div>
+
+    <div class="map-section-label">Content Workflow</div>
+    <div class="map-grid">
+      <div class="map-card">
+        <div class="num">02</div>
+        <h3>Dashboard</h3>
+        <p>Status tiles, activity feed, live process preview, Claude usage widget.</p>
+        <a class="open" href="dashboard.html">Open screen →</a>
+      </div>
+      <div class="map-card">
+        <div class="num">03</div>
+        <h3>Generate TOC</h3>
+        <p>Single-topic form (category, country, publish date, pages) or bulk upload via Excel with row-level validation.</p>
+        <a class="open" href="toc-generate.html">Open screen →</a>
+      </div>
+      <div class="map-card">
+        <div class="num">04</div>
+        <h3>All TOCs</h3>
+        <p>Full list with filters by status/category, entry point to review & edit.</p>
+        <a class="open" href="toc-list.html">Open screen →</a>
+      </div>
+      <div class="map-card">
+        <div class="num">05</div>
+        <h3>Review &amp; Edit</h3>
+        <p>Tabbed Market Overview / TOC / FAQ editor — click any block to edit it directly.</p>
+        <a class="open" href="toc-review-edit.html">Open screen →</a>
+      </div>
+      <div class="map-card">
+        <div class="num">06</div>
+        <h3>Version History</h3>
+        <p>Every save as an immutable version; preview or restore any past version.</p>
+        <a class="open" href="toc-history.html">Open screen →</a>
+      </div>
+      <div class="map-card">
+        <div class="num">07</div>
+        <h3>Review &amp; Approve / Publish</h3>
+        <p>Approve, publish, publish log timeline, retry &amp; manual-override.</p>
+        <a class="open" href="toc-approve-publish.html">Open screen →</a>
+      </div>
+      <div class="map-card">
+        <div class="num">08</div>
+        <h3>Processes</h3>
+        <p>Live queue of every generation &amp; publish job, updated in real time.</p>
+        <a class="open" href="processes.html">Open screen →</a>
+      </div>
+    </div>
+
+    <div class="map-section-label">Administration</div>
+    <div class="map-grid">
+      <div class="map-card">
+        <div class="num">09</div>
+        <h3>Roles &amp; Permissions</h3>
+        <p>Dynamic role builder, permission matrix, global feature-flag kill switches.</p>
+        <a class="open" href="roles-permissions.html">Open screen →</a>
+      </div>
+      <div class="map-card">
+        <div class="num">10</div>
+        <h3>Users</h3>
+        <p>Invited users, role assignment, active/disabled status.</p>
+        <a class="open" href="users.html">Open screen →</a>
+      </div>
+    </div>
+
+    <p class="wf-note" style="text-align:center; margin-top:40px;">Wireframe only — static markup, no real backend. Built to validate layout, navigation and the editing model before implementation. See ../development-plan.md for the underlying spec.</p>
+  </div>
+</body>
+</html>
