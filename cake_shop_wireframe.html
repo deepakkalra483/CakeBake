@@ -1,0 +1,611 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.frame{max-width:390px;margin:0 auto;border:2px solid var(--border-strong);border-radius:20px;overflow:hidden;background:var(--surface-0);display:flex;flex-direction:column;min-height:720px;position:relative}
+.statusbar{background:var(--surface-2);padding:10px 16px 6px;display:flex;justify-content:space-between;align-items:center;border-bottom:0.5px solid var(--border)}
+.statusbar span{font-size:11px;color:var(--text-secondary);font-weight:500}
+.topbar{background:var(--surface-2);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:0.5px solid var(--border)}
+.brand{font-size:15px;font-weight:500;color:var(--text-primary)}
+.topicons{display:flex;gap:12px;color:var(--text-secondary);font-size:19px;align-items:center}
+.roletoggle{display:flex;background:var(--surface-1);border-radius:var(--radius);padding:3px;margin:10px 14px 4px}
+.roletoggle button{flex:1;padding:5px 0;font-size:12px;border:none;border-radius:6px;cursor:pointer;font-weight:500;background:transparent;color:var(--text-secondary)}
+.roletoggle button.active{background:var(--surface-2);color:var(--text-primary);border:0.5px solid var(--border)}
+.content{flex:1;overflow-y:auto;padding-bottom:64px}
+.sec{display:none;padding:12px 14px}
+.sec.active{display:block}
+.card{background:var(--surface-2);border:0.5px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:10px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.statcard{background:var(--surface-1);border:0.5px solid var(--border);border-radius:10px;padding:10px 12px}
+.statlbl{font-size:11px;color:var(--text-secondary)}
+.statnum{font-size:18px;font-weight:500;color:var(--text-primary)}
+.badge{display:inline-block;font-size:10px;font-weight:500;padding:2px 8px;border-radius:20px}
+.bw{background:var(--bg-warning);color:var(--text-warning)}
+.bs{background:var(--bg-success);color:var(--text-success)}
+.ba{background:var(--bg-accent);color:var(--text-accent)}
+.bd{background:var(--bg-danger);color:var(--text-danger)}
+.bp{background:#EEEDFE;color:#3C3489}
+.leadrow{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:0.5px solid var(--border)}
+.leadrow:last-child{border-bottom:none}
+.av{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;flex-shrink:0}
+.av1{background:#FBEAF0;color:#993556}
+.av2{background:#E6F1FB;color:#185FA5}
+.av3{background:#EAF3DE;color:#3B6D11}
+.av4{background:#FAEEDA;color:#854F0B}
+.leadinfo{flex:1}
+.leadname{font-size:13px;font-weight:500;color:var(--text-primary)}
+.leaddet{font-size:11px;color:var(--text-secondary)}
+.wabtn{background:#25D366;color:#fff;border:none;border-radius:8px;padding:5px 9px;font-size:11px;font-weight:500;cursor:pointer;white-space:nowrap}
+.orderrow{background:var(--surface-2);border:0.5px solid var(--border);border-radius:10px;padding:10px 12px;margin-bottom:8px}
+.orderhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.orderid{font-size:12px;font-weight:500;color:var(--text-primary)}
+.orderitems{font-size:11px;color:var(--text-secondary);margin-bottom:5px}
+.orderfoot{display:flex;justify-content:space-between;align-items:center}
+.orderamt{font-size:13px;font-weight:500;color:var(--text-primary)}
+.sectitle{font-size:13px;font-weight:500;color:var(--text-primary);margin-bottom:8px;display:flex;align-items:center;justify-content:space-between}
+.addbtn{background:var(--bg-accent);color:var(--text-accent);border:none;border-radius:8px;padding:4px 10px;font-size:11px;font-weight:500;cursor:pointer}
+.cakethumb{width:100%;height:72px;border-radius:8px;background:#FBEAF0;display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:8px}
+.prodname{font-size:13px;font-weight:500;color:var(--text-primary)}
+.prodprice{font-size:12px;color:var(--text-secondary);margin:2px 0 6px}
+.prodactions{display:flex;gap:6px}
+.iconbtn{background:var(--surface-1);border:0.5px solid var(--border);border-radius:6px;padding:4px 8px;font-size:11px;cursor:pointer;color:var(--text-secondary)}
+.inrow{margin-bottom:10px}
+.inrow label{font-size:11px;color:var(--text-secondary);display:block;margin-bottom:3px}
+.inrow input,.inrow select,.inrow textarea{width:100%;padding:7px 10px;font-size:13px;border:0.5px solid var(--border);border-radius:var(--radius);background:var(--surface-1);color:var(--text-primary)}
+.inrow textarea{height:56px;resize:none}
+.submitbtn{width:100%;padding:10px;background:var(--fill-accent);color:var(--on-accent);border:none;border-radius:var(--radius);font-size:14px;font-weight:500;cursor:pointer;margin-top:4px}
+.filterrow{display:flex;gap:6px;margin-bottom:10px;overflow-x:auto;padding-bottom:2px}
+.chip{background:var(--surface-1);border:0.5px solid var(--border);border-radius:20px;padding:4px 12px;font-size:11px;cursor:pointer;white-space:nowrap;color:var(--text-secondary)}
+.chip.active{background:var(--bg-accent);color:var(--text-accent);border-color:var(--border-accent)}
+.offercard{background:var(--surface-2);border:0.5px solid var(--border);border-radius:10px;padding:10px 12px;margin-bottom:8px}
+.offerbar{height:6px;border-radius:3px;background:var(--surface-1);margin:6px 0 4px;overflow:hidden}
+.offerfill{height:100%;background:var(--fill-accent);border-radius:3px}
+.bottomnav{position:absolute;bottom:0;left:0;right:0;background:var(--surface-2);border-top:0.5px solid var(--border);display:flex}
+.navitem{flex:1;display:flex;flex-direction:column;align-items:center;padding:8px 4px 10px;cursor:pointer;color:var(--text-muted);font-size:10px;gap:3px}
+.navitem i{font-size:20px}
+.navitem.active{color:var(--text-accent)}
+.subtabs{display:flex;gap:0;background:var(--surface-1);border-radius:var(--radius);padding:3px;margin-bottom:10px}
+.subtab{flex:1;padding:5px 0;font-size:11px;border:none;border-radius:6px;cursor:pointer;font-weight:500;background:transparent;color:var(--text-secondary);text-align:center}
+.subtab.active{background:var(--surface-2);color:var(--text-primary);border:0.5px solid var(--border)}
+.dayfilter{display:flex;gap:6px;margin-bottom:10px}
+.df{padding:4px 12px;font-size:11px;border-radius:20px;border:0.5px solid var(--border);background:var(--surface-1);cursor:pointer;color:var(--text-secondary)}
+.df.active{background:var(--bg-accent);color:var(--text-accent);border-color:var(--border-accent)}
+.modal-overlay{position:absolute;inset:0;background:rgba(0,0,0,.45);z-index:50;display:flex;align-items:flex-end}
+.sheet{background:var(--surface-2);border-radius:16px 16px 0 0;padding:16px 14px 28px;width:100%;max-height:85%}
+.handle{width:36px;height:4px;background:var(--border-strong);border-radius:2px;margin:0 auto 14px}
+.sheettitle{font-size:14px;font-weight:500;color:var(--text-primary);margin-bottom:12px}
+.closebtn{background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:18px;float:right;margin-top:-2px}
+.shophero{background:#FBEAF0;border-radius:10px;padding:14px;margin-bottom:10px}
+.shophero h3{font-size:14px;font-weight:500;color:#72243E;margin-bottom:2px}
+.shophero p{font-size:11px;color:#993556}
+.shopbtn{margin-top:8px;background:#D4537E;color:#fff;border:none;border-radius:8px;padding:6px 16px;font-size:12px;cursor:pointer}
+.catrow{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:10px}
+.catchip{background:var(--surface-1);border:0.5px solid var(--border);border-radius:20px;padding:5px 14px;font-size:12px;cursor:pointer;white-space:nowrap;color:var(--text-secondary)}
+.catchip.active{background:#D4537E;color:#fff;border-color:transparent}
+.cakegrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.cakecard{background:var(--surface-2);border:0.5px solid var(--border);border-radius:10px;overflow:hidden}
+.cakeimg{height:70px;background:#FBEAF0;display:flex;align-items:center;justify-content:center;font-size:28px}
+.cakeinfo{padding:7px 8px}
+.cakename{font-size:12px;font-weight:500;color:var(--text-primary)}
+.cakeprice{font-size:11px;color:var(--text-secondary);margin-bottom:4px}
+.cakeadd{width:100%;padding:4px;background:#FBEAF0;color:#993556;border:none;border-radius:6px;font-size:11px;cursor:pointer;font-weight:500}
+.cartrow{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:0.5px solid var(--border)}
+.cartimg{width:40px;height:40px;background:#FBEAF0;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.cartinfo{flex:1}
+.cartname{font-size:12px;font-weight:500;color:var(--text-primary)}
+.cartqty{display:flex;align-items:center;gap:8px;margin-top:4px}
+.qtybtn{width:22px;height:22px;background:var(--surface-1);border:0.5px solid var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;color:var(--text-primary)}
+.qtynum{font-size:12px;font-weight:500;color:var(--text-primary)}
+.cartprice{font-size:13px;font-weight:500;color:var(--text-primary)}
+.couponrow{display:flex;gap:6px;margin:8px 0}
+.couponrow input{flex:1;padding:7px 10px;font-size:12px;border:0.5px solid var(--border);border-radius:var(--radius);background:var(--surface-1);color:var(--text-primary)}
+.couponrow button{padding:7px 12px;background:var(--surface-1);border:0.5px solid var(--border);border-radius:var(--radius);font-size:12px;cursor:pointer;color:var(--text-secondary)}
+.totalrow{display:flex;justify-content:space-between;padding:4px 0;font-size:12px;color:var(--text-secondary)}
+.totalrow.grand{font-size:14px;font-weight:500;color:var(--text-primary);border-top:0.5px solid var(--border);margin-top:4px;padding-top:8px}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:var(--surface-1);border-radius:var(--radius);margin-bottom:10px}
+.toggle-lbl{font-size:12px;color:var(--text-secondary)}
+.toggle-sw{width:36px;height:20px;background:var(--fill-accent);border-radius:10px;position:relative;cursor:pointer}
+.toggle-knob{position:absolute;right:2px;top:2px;width:16px;height:16px;background:#fff;border-radius:50%}
+.uploadbox{background:var(--surface-1);border:0.5px dashed var(--border-strong);border-radius:var(--radius);padding:16px;text-align:center;margin-bottom:10px;cursor:pointer}
+
+.spin-container{display:flex;flex-direction:column;align-items:center;padding:8px 0 4px}
+.spin-wrap{position:relative;width:180px;height:180px;margin:0 auto}
+.spin-canvas{border-radius:50%;border:3px solid var(--border-strong);overflow:hidden;cursor:pointer}
+.spin-pointer{position:absolute;top:-10px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:10px solid transparent;border-right:10px solid transparent;border-top:20px solid #D4537E;z-index:10}
+.spin-center-dot{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:24px;height:24px;background:var(--surface-2);border-radius:50%;border:2px solid var(--border-strong);z-index:10}
+.spin-btn{margin-top:14px;padding:10px 36px;background:#D4537E;color:#fff;border:none;border-radius:20px;font-size:14px;font-weight:500;cursor:pointer}
+.spin-result{margin-top:12px;width:100%;background:var(--bg-success);border:0.5px solid var(--border-success);border-radius:10px;padding:12px 14px;text-align:center;display:none}
+.spin-result-big{font-size:30px;font-weight:500;color:var(--text-success)}
+.spin-result-sub{font-size:12px;color:var(--text-success);margin-top:2px}
+.spin-result-code{display:inline-block;margin-top:6px;background:var(--surface-2);border:0.5px solid var(--border-success);border-radius:6px;padding:4px 14px;font-size:13px;font-weight:500;color:var(--text-success);letter-spacing:1px}
+.spin-history{margin-top:10px;font-size:11px;color:var(--text-muted);text-align:center}
+.seg-config{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
+.seg-pill{background:var(--surface-1);border:0.5px solid var(--border);border-radius:8px;padding:6px 10px;font-size:11px;color:var(--text-secondary);display:flex;align-items:center;gap:6px}
+.seg-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+</style>
+
+<h2 class="sr-only">Cake shop mobile app wireframe — owner and customer views with interactive spinner</h2>
+
+<div style="padding:1rem 0 .5rem;display:flex;flex-direction:column;align-items:center;gap:4px">
+  <p style="font-size:12px;color:var(--text-secondary);margin-bottom:6px">Tap tabs and nav items to explore all screens</p>
+  <div class="roletoggle" style="width:360px;margin:0 auto">
+    <button class="active" onclick="setRole('owner')">Shop owner view</button>
+    <button onclick="setRole('customer')">Customer view</button>
+  </div>
+</div>
+
+<div class="frame" id="main-frame">
+  <div class="statusbar">
+    <span>9:41</span>
+    <span><i class="ti ti-wifi" style="font-size:12px" aria-hidden="true"></i> <i class="ti ti-battery-2" style="font-size:12px" aria-hidden="true"></i></span>
+  </div>
+  <div class="topbar">
+    <span class="brand" id="topbrand">CakeHub</span>
+    <div class="topicons">
+      <i class="ti ti-bell" aria-hidden="true" style="position:relative"><span style="position:absolute;top:-4px;right:-4px;width:8px;height:8px;background:#E24B4A;border-radius:50%"></span></i>
+      <i class="ti ti-user-circle" aria-hidden="true"></i>
+    </div>
+  </div>
+
+  <div class="content" id="content-area">
+
+    <!-- OWNER: DASHBOARD -->
+    <div class="sec active" id="sec-dashboard">
+      <div style="font-size:12px;color:var(--text-secondary);margin-bottom:10px">Good morning, Meera</div>
+      <div class="grid2">
+        <div class="statcard"><div class="statlbl">Today's orders</div><div class="statnum">18</div></div>
+        <div class="statcard"><div class="statlbl">Revenue</div><div class="statnum">₹12,400</div></div>
+        <div class="statcard"><div class="statlbl">Pending</div><div class="statnum" style="color:var(--text-warning)">5</div></div>
+        <div class="statcard"><div class="statlbl">Walk-ins today</div><div class="statnum">9</div></div>
+      </div>
+      <div class="sectitle">Upcoming birthdays / anniversaries <span class="badge bw">3</span></div>
+      <div class="card" style="padding:8px 12px">
+        <div class="leadrow"><div class="av av1">PK</div><div class="leadinfo"><div class="leadname">Priya Kapoor</div><div class="leaddet">Birthday — tomorrow</div></div><button class="wabtn"><i class="ti ti-brand-whatsapp" style="font-size:12px" aria-hidden="true"></i> Send</button></div>
+        <div class="leadrow"><div class="av av2">RS</div><div class="leadinfo"><div class="leadname">Rajesh & Sunita</div><div class="leaddet">Anniversary — 2 days</div></div><button class="wabtn"><i class="ti ti-brand-whatsapp" style="font-size:12px" aria-hidden="true"></i> Send</button></div>
+        <div class="leadrow"><div class="av av3">AM</div><div class="leadinfo"><div class="leadname">Anjali Mehta</div><div class="leaddet">Birthday — 2 days</div></div><button class="wabtn"><i class="ti ti-brand-whatsapp" style="font-size:12px" aria-hidden="true"></i> Send</button></div>
+      </div>
+      <div class="sectitle">Active offers</div>
+      <div class="offercard">
+        <div style="display:flex;justify-content:space-between;margin-bottom:2px"><span style="font-size:12px;font-weight:500;color:var(--text-primary)">Diwali special — 20% off</span><span class="badge bs">Active</span></div>
+        <div class="offerbar"><div class="offerfill" style="width:62%"></div></div>
+        <div style="font-size:11px;color:var(--text-secondary)">3 days left · 62% redeemed</div>
+      </div>
+      <div class="offercard">
+        <div style="display:flex;justify-content:space-between;margin-bottom:2px"><span style="font-size:12px;font-weight:500;color:var(--text-primary)">Weekend flash — 10% off</span><span class="badge ba">Scheduled</span></div>
+        <div class="offerbar"><div class="offerfill" style="width:0%"></div></div>
+        <div style="font-size:11px;color:var(--text-secondary)">Starts Sat · Min order ₹500</div>
+      </div>
+    </div>
+
+    <!-- OWNER: LEADS -->
+    <div class="sec" id="sec-leads">
+      <div class="subtabs">
+        <button class="subtab active" onclick="subLeads('all',this)">All leads</button>
+        <button class="subtab" onclick="subLeads('bday',this)">Birthdays</button>
+        <button class="subtab" onclick="subLeads('ann',this)">Anniversaries</button>
+      </div>
+      <div id="leads-all">
+        <div class="card" style="padding:8px 12px">
+          <div class="leadrow"><div class="av av1">PK</div><div class="leadinfo"><div class="leadname">Priya Kapoor</div><div class="leaddet">98765 43210 · Birthday Apr 22</div></div><span class="badge bw">Tomorrow</span></div>
+          <div class="leadrow"><div class="av av2">RS</div><div class="leadinfo"><div class="leadname">Rajesh Sharma</div><div class="leaddet">87654 32109 · Anniversary Apr 23</div></div><span class="badge ba">2 days</span></div>
+          <div class="leadrow"><div class="av av3">AM</div><div class="leadinfo"><div class="leadname">Anjali Mehta</div><div class="leaddet">76543 21098 · Birthday Apr 23</div></div><span class="badge ba">2 days</span></div>
+          <div class="leadrow"><div class="av av4">VG</div><div class="leadinfo"><div class="leadname">Vikas Gupta</div><div class="leaddet">65432 10987 · Birthday May 1</div></div><span class="badge bs">Next week</span></div>
+        </div>
+        <button class="submitbtn" onclick="showModal('add-customer')">+ Add walk-in customer</button>
+      </div>
+      <div id="leads-bday" style="display:none">
+        <div class="card" style="padding:8px 12px">
+          <div class="leadrow"><div class="av av1">PK</div><div class="leadinfo"><div class="leadname">Priya Kapoor</div><div class="leaddet">Birthday Apr 22</div></div><span class="badge bw">Tomorrow</span></div>
+          <div class="leadrow"><div class="av av3">AM</div><div class="leadinfo"><div class="leadname">Anjali Mehta</div><div class="leaddet">Birthday Apr 23</div></div><span class="badge ba">2 days</span></div>
+        </div>
+      </div>
+      <div id="leads-ann" style="display:none">
+        <div class="card" style="padding:8px 12px">
+          <div class="leadrow"><div class="av av2">RS</div><div class="leadinfo"><div class="leadname">Rajesh & Sunita</div><div class="leaddet">Anniversary Apr 23</div></div><span class="badge ba">2 days</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OWNER: ORDERS -->
+    <div class="sec" id="sec-orders">
+      <div class="subtabs">
+        <button class="subtab active" onclick="subOrders('up',this)">Upcoming</button>
+        <button class="subtab" onclick="subOrders('done',this)">Complete</button>
+        <button class="subtab" onclick="subOrders('all',this)">All orders</button>
+      </div>
+      <div id="orders-up">
+        <div class="orderrow"><div class="orderhead"><span class="orderid">#CK-1042</span><span class="badge bw">Pending</span></div><div class="orderitems">Chocolate truffle 1kg · Vanilla cupcakes x6</div><div class="orderfoot"><span class="orderamt">₹1,480</span><span style="font-size:11px;color:var(--text-muted)">Today 2pm · Online</span></div></div>
+        <div class="orderrow"><div class="orderhead"><span class="orderid">#CK-1041</span><span class="badge ba">Processing</span></div><div class="orderitems">Red velvet 2kg</div><div class="orderfoot"><span class="orderamt">₹2,200</span><span style="font-size:11px;color:var(--text-muted)">Today 5pm · Online</span></div></div>
+        <div class="orderrow"><div class="orderhead"><span class="orderid">#CK-1040</span><span class="badge bw">Pending</span></div><div class="orderitems">Custom wedding cake 5kg</div><div class="orderfoot"><span class="orderamt">₹7,500</span><span style="font-size:11px;color:var(--text-muted)">Apr 25 · Online</span></div></div>
+      </div>
+      <div id="orders-done" style="display:none">
+        <div class="dayfilter">
+          <span class="df active" onclick="setDf(this)">Today</span>
+          <span class="df" onclick="setDf(this)">7 days</span>
+          <span class="df" onclick="setDf(this)">30 days</span>
+          <span class="df" onclick="setDf(this)">Custom</span>
+        </div>
+        <div class="orderrow"><div class="orderhead"><span class="orderid">#CK-1039</span><span class="badge bs">Delivered</span></div><div class="orderitems">Butterscotch 1kg</div><div class="orderfoot"><span class="orderamt">₹950</span><span style="font-size:11px;color:var(--text-muted)">Yesterday · Online</span></div></div>
+        <div class="orderrow"><div class="orderhead"><span class="orderid">#CK-1038</span><span class="badge bs">Picked up</span></div><div class="orderitems">Blueberry cheesecake</div><div class="orderfoot"><span class="orderamt">₹1,100</span><span style="font-size:11px;color:var(--text-muted)">Yesterday · Walk-in</span></div></div>
+      </div>
+      <div id="orders-all" style="display:none">
+        <div class="dayfilter">
+          <span class="df active" onclick="setDf(this)">Today</span>
+          <span class="df" onclick="setDf(this)">7 days</span>
+          <span class="df" onclick="setDf(this)">30 days</span>
+          <span class="df" onclick="setDf(this)">Custom</span>
+        </div>
+        <div class="grid2" style="margin-bottom:10px">
+          <div class="statcard"><div class="statlbl">Total orders</div><div class="statnum">214</div></div>
+          <div class="statcard"><div class="statlbl">Revenue</div><div class="statnum">₹1.2L</div></div>
+        </div>
+        <div class="orderrow"><div class="orderhead"><span class="orderid">#CK-1042</span><span class="badge bw">Pending</span></div><div class="orderitems">Chocolate truffle 1kg</div><div class="orderfoot"><span class="orderamt">₹1,480</span><span style="font-size:11px;color:var(--text-muted)">Today</span></div></div>
+        <div class="orderrow"><div class="orderhead"><span class="orderid">#CK-1039</span><span class="badge bs">Delivered</span></div><div class="orderitems">Butterscotch 1kg</div><div class="orderfoot"><span class="orderamt">₹950</span><span style="font-size:11px;color:var(--text-muted)">Yesterday</span></div></div>
+      </div>
+    </div>
+
+    <!-- OWNER: INVENTORY (CAKES) -->
+    <div class="sec" id="sec-inventory">
+      <div class="sectitle">Cake menu <button class="addbtn" onclick="showModal('add-cake')">+ Add cake</button></div>
+      <div class="filterrow">
+        <span class="chip active" onclick="setChip(this)">All</span>
+        <span class="chip" onclick="setChip(this)">Custom</span>
+        <span class="chip" onclick="setChip(this)">Eggless</span>
+        <span class="chip" onclick="setChip(this)">Cupcakes</span>
+        <span class="chip" onclick="setChip(this)">Pastries</span>
+      </div>
+      <div class="card" style="padding:10px 12px;margin-bottom:10px">
+        <div class="cakethumb"></div>
+        <div class="prodname">Chocolate truffle cake</div>
+        <div class="prodprice">₹950 / kg · Stock: 8 kg available</div>
+        <div style="display:flex;gap:6px;margin-bottom:6px;flex-wrap:wrap">
+          <span class="badge bs">Eggless available</span>
+          <span style="font-size:10px;background:#FBEAF0;color:#993556;padding:2px 8px;border-radius:20px;font-weight:500">Bestseller</span>
+        </div>
+        <div class="prodactions"><button class="iconbtn"><i class="ti ti-edit" aria-hidden="true"></i> Edit</button><button class="iconbtn"><i class="ti ti-tag" aria-hidden="true"></i> Coupon</button><button class="iconbtn"><i class="ti ti-eye" aria-hidden="true"></i> Hide</button></div>
+      </div>
+      <div class="card" style="padding:10px 12px;margin-bottom:10px">
+        <div class="cakethumb" style="background:#E1F5EE;font-size:28px"></div>
+        <div class="prodname">Red velvet cake</div>
+        <div class="prodprice">₹1,100 / kg · Stock: <span style="color:var(--text-warning)">2 kg (low)</span></div>
+        <div class="prodactions"><button class="iconbtn"><i class="ti ti-edit" aria-hidden="true"></i> Edit</button><button class="iconbtn"><i class="ti ti-tag" aria-hidden="true"></i> Coupon</button><button class="iconbtn" style="color:var(--text-danger)"><i class="ti ti-trash" aria-hidden="true"></i></button></div>
+      </div>
+    </div>
+
+    <!-- OWNER: OFFERS -->
+    <div class="sec" id="sec-offers">
+      <div class="sectitle">Offers <button class="addbtn" onclick="showModal('add-offer')">+ New offer</button></div>
+      <div class="offercard"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:12px;font-weight:500;color:var(--text-primary)">Diwali special — 20% off</span><span class="badge bs">Active</span></div><div style="font-size:11px;color:var(--text-secondary)">Apr 20–30 · Min ₹500 · Auto WhatsApp: ON</div></div>
+      <div class="offercard"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:12px;font-weight:500;color:var(--text-primary)">Weekend flash — 10% off</span><span class="badge ba">Scheduled</span></div><div style="font-size:11px;color:var(--text-secondary)">Apr 26–27 · All cakes</div></div>
+
+      <div class="sectitle" style="margin-top:16px">
+        Lucky spinner
+        <span class="badge bs" style="font-size:10px">In-store only</span>
+      </div>
+      <div class="card">
+        <p style="font-size:11px;color:var(--text-secondary);margin-bottom:12px;line-height:1.5">Hand your phone to the walk-in customer. They spin the wheel and win the discount it lands on — redeemable at billing today.</p>
+
+        <div class="spin-container">
+          <div class="spin-wrap">
+            <div class="spin-pointer"></div>
+            <canvas id="spinCanvas" class="spin-canvas" width="180" height="180"></canvas>
+            <div class="spin-center-dot"></div>
+          </div>
+          <button class="spin-btn" onclick="doSpin()">Spin the wheel!</button>
+          <div class="spin-result" id="spinResult">
+            <div class="spin-result-big" id="spinVal">15% OFF</div>
+            <div class="spin-result-sub" id="spinSub">Valid today on any cake</div>
+            <div class="spin-result-code" id="spinCode">LUCKY15</div>
+            <div style="font-size:11px;color:var(--text-success);margin-top:6px">Show this screen at billing counter</div>
+          </div>
+          <div class="spin-history" id="spinHistory"></div>
+        </div>
+
+        <div style="border-top:0.5px solid var(--border);margin-top:12px;padding-top:10px">
+          <div style="font-size:12px;font-weight:500;color:var(--text-primary);margin-bottom:8px">Wheel segments</div>
+          <div class="seg-config">
+            <div class="seg-pill"><div class="seg-dot" style="background:#EEEDFE"></div><span>5% off</span></div>
+            <div class="seg-pill"><div class="seg-dot" style="background:#EAF3DE"></div><span>10% off</span></div>
+            <div class="seg-pill"><div class="seg-dot" style="background:#FBEAF0"></div><span>15% off</span></div>
+            <div class="seg-pill"><div class="seg-dot" style="background:#E6F1FB"></div><span>20% off</span></div>
+            <div class="seg-pill"><div class="seg-dot" style="background:#FAEEDA"></div><span>Free pastry</span></div>
+            <div class="seg-pill"><div class="seg-dot" style="background:#FAECE7"></div><span>Try again</span></div>
+            <div class="seg-pill"><div class="seg-dot" style="background:#F1EFE8"></div><span>Buy 1 get 1</span></div>
+            <div class="seg-pill"><div class="seg-dot" style="background:#E1F5EE"></div><span>25% off</span></div>
+          </div>
+          <button class="submitbtn" style="margin-top:10px;background:var(--surface-1);color:var(--text-primary);border:0.5px solid var(--border)">Edit segments</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CUSTOMER: SHOP -->
+    <div class="sec" id="sec-shop">
+      <div class="shophero">
+        <h3>Meera's Cake Studio</h3>
+        <p>Fresh bakes daily · Custom cakes · Est. 2015</p>
+        <button class="shopbtn">View all offers</button>
+      </div>
+      <div class="catrow">
+        <span class="catchip active" onclick="setCat(this)">All</span>
+        <span class="catchip" onclick="setCat(this)">Chocolate</span>
+        <span class="catchip" onclick="setCat(this)">Eggless</span>
+        <span class="catchip" onclick="setCat(this)">Cupcakes</span>
+        <span class="catchip" onclick="setCat(this)">Custom</span>
+      </div>
+      <div class="cakegrid">
+        <div class="cakecard"><div class="cakeimg"></div><div class="cakeinfo"><div class="cakename">Chocolate truffle</div><div class="cakeprice">₹950/kg <span style="color:var(--text-success);font-size:10px">20% off</span></div><button class="cakeadd" onclick="showModal('cart-added')">Add to cart</button></div></div>
+        <div class="cakecard"><div class="cakeimg" style="background:#E1F5EE"></div><div class="cakeinfo"><div class="cakename">Red velvet</div><div class="cakeprice">₹1,100/kg</div><button class="cakeadd" onclick="showModal('cart-added')">Add to cart</button></div></div>
+        <div class="cakecard"><div class="cakeimg" style="background:#E6F1FB"></div><div class="cakeinfo"><div class="cakename">Blueberry cheese</div><div class="cakeprice">₹1,250/kg</div><button class="cakeadd" onclick="showModal('cart-added')">Add to cart</button></div></div>
+        <div class="cakecard"><div class="cakeimg" style="background:#FAEEDA"></div><div class="cakeinfo"><div class="cakename">Butterscotch</div><div class="cakeprice">₹850/kg</div><button class="cakeadd" onclick="showModal('cart-added')">Add to cart</button></div></div>
+        <div class="cakecard"><div class="cakeimg" style="background:#EAF3DE"></div><div class="cakeinfo"><div class="cakename">Pineapple fresh</div><div class="cakeprice">₹700/kg</div><button class="cakeadd" onclick="showModal('cart-added')">Add to cart</button></div></div>
+        <div class="cakecard"><div class="cakeimg" style="background:#EEEDFE"></div><div class="cakeinfo"><div class="cakename">Custom cake</div><div class="cakeprice">From ₹1,500</div><button class="cakeadd" onclick="showModal('custom-cake')">Customise</button></div></div>
+      </div>
+    </div>
+
+    <!-- CUSTOMER: CART -->
+    <div class="sec" id="sec-cart">
+      <div class="sectitle">Your cart</div>
+      <div class="cartrow"><div class="cartimg"></div><div class="cartinfo"><div class="cartname">Chocolate truffle cake</div><div style="font-size:11px;color:var(--text-muted)">1 kg · Eggless</div><div class="cartqty"><div class="qtybtn">−</div><span class="qtynum">1</span><div class="qtybtn">+</div></div></div><span class="cartprice">₹760</span></div>
+      <div class="cartrow"><div class="cartimg" style="background:#FAEEDA"></div><div class="cartinfo"><div class="cartname">Butterscotch cake</div><div style="font-size:11px;color:var(--text-muted)">0.5 kg</div><div class="cartqty"><div class="qtybtn">−</div><span class="qtynum">1</span><div class="qtybtn">+</div></div></div><span class="cartprice">₹425</span></div>
+      <div class="couponrow"><input placeholder="Coupon or spin code" /><button>Apply</button></div>
+      <div style="margin-top:4px">
+        <div class="totalrow"><span>Subtotal</span><span>₹1,185</span></div>
+        <div class="totalrow"><span>Delivery</span><span style="color:var(--text-success)">Free</span></div>
+        <div class="totalrow"><span>Discount (20%)</span><span style="color:var(--text-success)">−₹237</span></div>
+        <div class="totalrow grand"><span>Total</span><span>₹948</span></div>
+      </div>
+      <button class="submitbtn" onclick="showModal('checkout')">Proceed to checkout</button>
+    </div>
+
+    <!-- CUSTOMER: MY ORDERS -->
+    <div class="sec" id="sec-myorders">
+      <div class="sectitle">My orders</div>
+      <div class="orderrow"><div class="orderhead"><span class="orderid">#CK-1038</span><span class="badge ba">On the way</span></div><div class="orderitems">Red velvet 1kg</div><div class="orderfoot"><span class="orderamt">₹1,100</span><span style="font-size:11px;color:var(--text-muted)">Apr 20</span></div></div>
+      <div class="orderrow"><div class="orderhead"><span class="orderid">#CK-1031</span><span class="badge bs">Delivered</span></div><div class="orderitems">Chocolate truffle 0.5kg · Cupcakes x4</div><div class="orderfoot"><span class="orderamt">₹875</span><span style="font-size:11px;color:var(--text-muted)">Apr 15</span></div></div>
+    </div>
+
+    <!-- CUSTOMER: PROFILE -->
+    <div class="sec" id="sec-profile">
+      <div class="card" style="text-align:center;padding:20px">
+        <div class="av av2" style="width:50px;height:50px;font-size:16px;margin:0 auto 8px">SK</div>
+        <div style="font-size:15px;font-weight:500;color:var(--text-primary)">Sneha Kulkarni</div>
+        <div style="font-size:12px;color:var(--text-secondary)">sneha@email.com · 98765 00001</div>
+      </div>
+      <div class="inrow" style="margin-top:10px"><label>Birthday</label><input type="text" value="April 22" /></div>
+      <div class="inrow"><label>Anniversary</label><input type="text" placeholder="Add anniversary date" /></div>
+      <div class="inrow"><label>Delivery address</label><textarea>123 MG Road, Bhiwani, HR</textarea></div>
+      <div class="inrow"><label>Preferred flavour</label><input type="text" placeholder="e.g. Chocolate, eggless" /></div>
+      <button class="submitbtn">Save profile</button>
+    </div>
+
+  </div>
+
+  <!-- MODALS -->
+  <div class="modal-overlay" id="modal-add-customer" style="display:none" onclick="closeModal('add-customer')">
+    <div class="sheet" onclick="event.stopPropagation()">
+      <div class="handle"></div>
+      <button class="closebtn" onclick="closeModal('add-customer')"><i class="ti ti-x" aria-hidden="true"></i></button>
+      <div class="sheettitle">Add walk-in customer</div>
+      <div class="inrow"><label>Name</label><input placeholder="Customer name" /></div>
+      <div class="inrow"><label>Phone</label><input placeholder="+91 XXXXX XXXXX" /></div>
+      <div class="inrow"><label>Birthday</label><input type="text" placeholder="DD/MM/YYYY" /></div>
+      <div class="inrow"><label>Anniversary</label><input type="text" placeholder="DD/MM/YYYY (optional)" /></div>
+      <div class="inrow"><label>Flavour preference</label><input placeholder="e.g. Chocolate, eggless" /></div>
+      <div class="inrow"><label>Notes</label><textarea placeholder="What did they buy, allergies, preferences…"></textarea></div>
+      <button class="submitbtn">Save customer</button>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal-add-cake" style="display:none" onclick="closeModal('add-cake')">
+    <div class="sheet" onclick="event.stopPropagation()">
+      <div class="handle"></div>
+      <button class="closebtn" onclick="closeModal('add-cake')"><i class="ti ti-x" aria-hidden="true"></i></button>
+      <div class="sheettitle">Add cake to menu</div>
+      <div class="inrow"><label>Cake name</label><input placeholder="e.g. Chocolate truffle" /></div>
+      <div class="grid2">
+        <div class="inrow"><label>Price / kg (₹)</label><input placeholder="0" /></div>
+        <div class="inrow"><label>Available kg</label><input placeholder="0" /></div>
+      </div>
+      <div class="inrow"><label>Category</label><select><option>Chocolate</option><option>Fruit</option><option>Cheesecake</option><option>Cupcakes</option><option>Custom</option></select></div>
+      <div class="inrow"><label>Eggless option available</label><select><option>Yes</option><option>No</option></select></div>
+      <div class="inrow"><label>Coupon code</label><input placeholder="e.g. CHOCO10" /></div>
+      <div class="inrow"><label>Discount %</label><input placeholder="0" /></div>
+      <div class="uploadbox"><i class="ti ti-upload" style="font-size:20px;color:var(--text-muted)" aria-hidden="true"></i><div style="font-size:11px;color:var(--text-muted);margin-top:4px">Tap to upload cake photo</div></div>
+      <button class="submitbtn">Add to menu</button>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal-add-offer" style="display:none" onclick="closeModal('add-offer')">
+    <div class="sheet" onclick="event.stopPropagation()">
+      <div class="handle"></div>
+      <button class="closebtn" onclick="closeModal('add-offer')"><i class="ti ti-x" aria-hidden="true"></i></button>
+      <div class="sheettitle">Create offer</div>
+      <div class="inrow"><label>Offer name</label><input placeholder="e.g. Summer special" /></div>
+      <div class="grid2"><div class="inrow"><label>Start date</label><input placeholder="DD/MM/YYYY" /></div><div class="inrow"><label>End date</label><input placeholder="DD/MM/YYYY" /></div></div>
+      <div class="grid2"><div class="inrow"><label>Discount %</label><input placeholder="0" /></div><div class="inrow"><label>Min order ₹</label><input placeholder="0" /></div></div>
+      <div class="inrow"><label>Apply to</label><select><option>All cakes</option><option>Category</option><option>Specific cakes</option></select></div>
+      <div class="toggle-row"><span class="toggle-lbl">Auto-send WhatsApp to leads</span><div class="toggle-sw"><div class="toggle-knob"></div></div></div>
+      <button class="submitbtn">Create offer</button>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal-cart-added" style="display:none" onclick="closeModal('cart-added')">
+    <div class="sheet" onclick="event.stopPropagation()" style="padding-bottom:20px">
+      <div class="handle"></div>
+      <div style="text-align:center;padding:8px 0">
+        <i class="ti ti-circle-check" style="font-size:40px;color:var(--text-success)" aria-hidden="true"></i>
+        <div style="font-size:15px;font-weight:500;margin-top:8px;color:var(--text-primary)">Added to cart!</div>
+        <div style="font-size:12px;color:var(--text-secondary);margin-top:4px">Select weight at checkout</div>
+        <div style="display:flex;gap:8px;margin-top:14px">
+          <button style="flex:1;padding:9px;background:var(--surface-1);border:0.5px solid var(--border);border-radius:var(--radius);font-size:13px;cursor:pointer;color:var(--text-primary)" onclick="closeModal('cart-added')">Continue shopping</button>
+          <button class="submitbtn" style="flex:1;margin-top:0" onclick="goCart()">View cart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal-custom-cake" style="display:none" onclick="closeModal('custom-cake')">
+    <div class="sheet" onclick="event.stopPropagation()">
+      <div class="handle"></div>
+      <button class="closebtn" onclick="closeModal('custom-cake')"><i class="ti ti-x" aria-hidden="true"></i></button>
+      <div class="sheettitle">Customise your cake</div>
+      <div class="inrow"><label>Flavour</label><select><option>Chocolate</option><option>Vanilla</option><option>Red velvet</option><option>Butterscotch</option><option>Other</option></select></div>
+      <div class="inrow"><label>Weight (kg)</label><select><option>0.5 kg</option><option>1 kg</option><option>2 kg</option><option>3 kg</option><option>5 kg</option></select></div>
+      <div class="inrow"><label>Egg preference</label><select><option>With egg</option><option>Eggless</option></select></div>
+      <div class="inrow"><label>Cake message</label><input placeholder='e.g. "Happy Birthday Priya!"' /></div>
+      <div class="inrow"><label>Delivery date and time</label><input placeholder="DD/MM/YYYY HH:MM" /></div>
+      <div class="inrow"><label>Special instructions</label><textarea placeholder="Design ideas, allergies, themes…"></textarea></div>
+      <button class="submitbtn">Add custom cake to cart</button>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal-checkout" style="display:none" onclick="closeModal('checkout')">
+    <div class="sheet" onclick="event.stopPropagation()">
+      <div class="handle"></div>
+      <button class="closebtn" onclick="closeModal('checkout')"><i class="ti ti-x" aria-hidden="true"></i></button>
+      <div class="sheettitle">Checkout</div>
+      <div class="inrow"><label>Delivery address</label><textarea>123 MG Road, Bhiwani, HR</textarea></div>
+      <div class="inrow"><label>Delivery slot</label><select><option>Today 4–6 PM</option><option>Today 6–8 PM</option><option>Tomorrow 10 AM–12 PM</option></select></div>
+      <div class="inrow"><label>Payment</label><select><option>UPI / QR</option><option>Card</option><option>Cash on delivery</option></select></div>
+      <div style="background:var(--surface-1);border-radius:var(--radius);padding:10px 12px;margin-bottom:10px">
+        <div class="totalrow"><span>Items</span><span>₹1,185</span></div>
+        <div class="totalrow"><span>Discount</span><span style="color:var(--text-success)">−₹237</span></div>
+        <div class="totalrow grand"><span>Total</span><span>₹948</span></div>
+      </div>
+      <button class="submitbtn">Place order</button>
+    </div>
+  </div>
+
+  <nav class="bottomnav" id="bottomnav"></nav>
+</div>
+
+<script>
+const ownerNav=[{id:'dashboard',icon:'ti-layout-dashboard',lbl:'Dashboard'},{id:'leads',icon:'ti-users',lbl:'Leads'},{id:'orders',icon:'ti-shopping-bag',lbl:'Orders'},{id:'inventory',icon:'ti-cake',lbl:'Menu'},{id:'offers',icon:'ti-tag',lbl:'Offers'}];
+const custNav=[{id:'shop',icon:'ti-home',lbl:'Shop'},{id:'cart',icon:'ti-shopping-cart',lbl:'Cart'},{id:'myorders',icon:'ti-clipboard-list',lbl:'Orders'},{id:'profile',icon:'ti-user',lbl:'Profile'}];
+let role='owner',curSec='dashboard';
+
+function buildNav(){
+  const items=role==='owner'?ownerNav:custNav;
+  document.getElementById('bottomnav').innerHTML=items.map(n=>`<div class="navitem${n.id===curSec?' active':''}" onclick="goSec('${n.id}')"><i class="ti ${n.icon}" aria-hidden="true"></i><span>${n.lbl}</span></div>`).join('');
+}
+function goSec(id){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('active'));
+  const el=document.getElementById('sec-'+id);
+  if(el)el.classList.add('active');
+  curSec=id;
+  buildNav();
+  if(id==='offers')drawWheel();
+}
+function setRole(r){
+  role=r;
+  document.querySelectorAll('.roletoggle button').forEach((b,i)=>b.classList.toggle('active',(i===0&&r==='owner')||(i===1&&r==='customer')));
+  curSec=r==='owner'?'dashboard':'shop';
+  document.getElementById('topbrand').textContent=r==='owner'?'CakeHub — Owner':'Meera\'s Cakes';
+  goSec(curSec);
+}
+function subLeads(tab,btn){
+  ['all','bday','ann'].forEach(t=>{const el=document.getElementById('leads-'+t);if(el)el.style.display=t===tab?'block':'none';});
+  btn.closest('.subtabs').querySelectorAll('.subtab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+function subOrders(tab,btn){
+  ['up','done','all'].forEach(t=>{const el=document.getElementById('orders-'+t);if(el)el.style.display=t===tab?'block':'none';});
+  btn.closest('.subtabs').querySelectorAll('.subtab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+function setDf(el){document.querySelectorAll('.df').forEach(d=>d.classList.remove('active'));el.classList.add('active');}
+function setChip(el){document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));el.classList.add('active');}
+function setCat(el){document.querySelectorAll('.catchip').forEach(c=>c.classList.remove('active'));el.classList.add('active');}
+function showModal(n){document.getElementById('modal-'+n).style.display='flex';}
+function closeModal(n){document.getElementById('modal-'+n).style.display='none';}
+function goCart(){closeModal('cart-added');setRole('customer');goSec('cart');}
+
+const segs=[
+  {label:'5% OFF',code:'LUCKY5',sub:'Valid today on any cake',fill:'#EEEDFE'},
+  {label:'10% OFF',code:'LUCKY10',sub:'Valid today on any cake',fill:'#EAF3DE'},
+  {label:'15% OFF',code:'LUCKY15',sub:'Valid today on any cake',fill:'#FBEAF0'},
+  {label:'20% OFF',code:'LUCKY20',sub:'Valid today on any cake',fill:'#E6F1FB'},
+  {label:'Free pastry',code:'PASTRY',sub:'Collect at billing today',fill:'#FAEEDA'},
+  {label:'Try again',code:'',sub:'Better luck next time!',fill:'#FAECE7'},
+  {label:'Buy 1 get 1',code:'BOGO',sub:'On cupcakes today',fill:'#F1EFE8'},
+  {label:'25% OFF',code:'LUCKY25',sub:'Valid today on any cake',fill:'#E1F5EE'}
+];
+const N=segs.length;
+let spinning=false,currentAngle=0,spinCount=0;
+
+function drawWheel(angle){
+  const canvas=document.getElementById('spinCanvas');
+  if(!canvas)return;
+  const ctx=canvas.getContext('2d');
+  const cx=90,cy=90,r=88;
+  const arc=2*Math.PI/N;
+  ctx.clearRect(0,0,180,180);
+  for(let i=0;i<N;i++){
+    const start=(angle||currentAngle)+i*arc;
+    ctx.beginPath();
+    ctx.moveTo(cx,cy);
+    ctx.arc(cx,cy,r,start,start+arc);
+    ctx.closePath();
+    ctx.fillStyle=segs[i].fill;
+    ctx.fill();
+    ctx.strokeStyle='rgba(0,0,0,0.08)';
+    ctx.lineWidth=1;
+    ctx.stroke();
+    ctx.save();
+    ctx.translate(cx,cy);
+    ctx.rotate(start+arc/2);
+    ctx.textAlign='right';
+    ctx.fillStyle='#444';
+    ctx.font='bold 10px sans-serif';
+    ctx.fillText(segs[i].label,r-6,4);
+    ctx.restore();
+  }
+  ctx.beginPath();
+  ctx.arc(cx,cy,12,0,2*Math.PI);
+  ctx.fillStyle='#fff';
+  ctx.fill();
+  ctx.strokeStyle='rgba(0,0,0,0.15)';
+  ctx.lineWidth=2;
+  ctx.stroke();
+}
+
+function doSpin(){
+  if(spinning)return;
+  spinning=true;
+  const resultEl=document.getElementById('spinResult');
+  const histEl=document.getElementById('spinHistory');
+  resultEl.style.display='none';
+  const extraSpins=5+Math.floor(Math.random()*4);
+  const landSeg=Math.floor(Math.random()*N);
+  const arc=2*Math.PI/N;
+  const targetAngle=currentAngle+extraSpins*2*Math.PI+(arc*landSeg);
+  const dur=4000;
+  const start=performance.now();
+  const startAngle=currentAngle;
+
+  function ease(t){return t<1?1-Math.pow(1-t,3):1;}
+  function frame(now){
+    const t=Math.min((now-start)/dur,1);
+    const a=startAngle+(targetAngle-startAngle)*ease(t);
+    drawWheel(a);
+    if(t<1){requestAnimationFrame(frame);}
+    else{
+      currentAngle=targetAngle%(2*Math.PI);
+      drawWheel(currentAngle);
+      spinning=false;
+      const won=segs[landSeg];
+      document.getElementById('spinVal').textContent=won.label;
+      document.getElementById('spinSub').textContent=won.sub;
+      const codeEl=document.getElementById('spinCode');
+      if(won.code){codeEl.textContent=won.code;codeEl.style.display='inline-block';}
+      else{codeEl.style.display='none';}
+      resultEl.style.display='block';
+      spinCount++;
+      histEl.textContent='Spins today: '+spinCount;
+    }
+  }
+  requestAnimationFrame(frame);
+}
+
+setRole('owner');
+setTimeout(drawWheel,100);
+</script>
